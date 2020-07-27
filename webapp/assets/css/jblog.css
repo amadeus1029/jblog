@@ -15,6 +15,9 @@ a:visited {text-decoration: none; color: #000000; }
 a:active {text-decoration: none; color: #000000; }
 a:hover {text-decoration: none; color: #000000; }
 
+fieldset {
+	border: none;
+}
 
 /* 버튼 공통*/
 .btn_s {
@@ -215,3 +218,30 @@ div#footer		{ color:#666 }
 #admin-content #admin-write select[name='cateNo'] {width: 150px; height: 35px; }
 #admin-content #admin-write textarea {width: 600px; height: 300px;}
 
+
+/* 추가 css */
+#profilecate_area #cateList>li.on {font-weight: bold}
+#post_area #list table td a.on {font-weight: bold}
+
+/* 게시판 페이징 */
+#paging {
+	padding-top: 15px;
+	text-align: center;
+}
+
+#paging ul {margin: 10px 5px 10px 5px;}
+#paging ul>li{
+	display: inline-block;
+	margin: 0 10px;
+}
+
+#paging ul>li.active{
+	font-size: 14px;
+	font-weight: bold;
+	pointer-events: none;
+}
+
+#paging ul>li>a.off{
+	opacity: 0.3;
+	pointer-events: none;
+}

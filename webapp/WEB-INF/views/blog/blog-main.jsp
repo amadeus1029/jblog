@@ -34,7 +34,7 @@
 					</div>
 					<ul id="cateList" class="text-left">
 						<c:forEach items="${cateList}" var="cateVo">
-							<li><a href="${pageContext.request.contextPath}/${blogVo.id}?crtCateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
+							<li class="${cateVo.cateNo eq param.cateNo ? 'on' : ''}"><a href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${cateVo.cateNo}">${cateVo.cateName}</a></li>
 						</c:forEach>
 					</ul>
 				</div>
@@ -46,7 +46,7 @@
 					<div id="postBox" class="clearfix">
 							<div id="postTitle" class="text-left"><strong>${postVo.postTitle}</strong></div>
 							<div id="postDate" class="text-left"><strong>${postVo.regDate}</strong></div>
-							<div id="postNick">래미(iremys)님</div>
+							<div id="postNick">${blogVo.userName}(${blogVo.id})님</div>
 					</div>
 					<!-- //postBox -->
 				
@@ -70,21 +70,22 @@
 				</c:if>
 				
 				<div id="list">
-					<div id="listTitle" class="text-left"><strong>카테고리의 글</strong></div>
+					<div id="listTitle" class="text-left"><strong>${postVo.cateName} 카테고리의 글</strong></div>
 					<table>
 						<colgroup>
 							<col style="">
 							<col style="width: 20%;">
 						</colgroup>
-						<c:forEach items="${postList}" var="postVo">
+						<c:forEach items="${post.postList}" var="postVo">
 							<tr>
-								<td class="text-left"><a href="${pageContext.request.contextPath}/${blogVo.id}?crtCateNo=${param.crtCateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
+								<td class="text-left"><a class="${postVo.postNo eq param.postNo ? 'on' : ''}" href="${pageContext.request.contextPath}/${blogVo.id}?cateNo=${postVo.cateNo}&postNo=${postVo.postNo}">${postVo.postTitle}</a></td>
 								<td class="text-right">${postVo.regDate}</td>
 							</tr>
 						</c:forEach>
 					</table>
 				</div>
 				<!-- //list -->
+				<c:import url="/WEB-INF/views/includes/postPaging.jsp"></c:import>
 			</div>
 			<!-- //post_area -->
 			

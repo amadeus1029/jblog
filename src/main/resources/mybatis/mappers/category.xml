@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="category">
+    <insert id="insertById" parameterType="string">
+        <![CDATA[
+            insert into category
+            values(seq_category_no.nextVal, #{id}, '미분류', '기본으로 만들어지는 카테고리 입니다.', sysdate)
+        ]]>
+    </insert>
+    <insert id="insertSelectKey" parameterType="CategoryVo">
+        <selectKey keyProperty="cateNo" resultType="int" order="BEFORE">
+            <![CDATA[
+                select seq_category_no.nextVal from dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+            insert into category
+            values(#{cateNo}, #{id}, #{cateName},#{description}, sysdate)
+        ]]>
+    </insert>
+    <select id="selectByNo" parameterType="int" resultType="CategoryVo">
+        <![CDATA[
+            select  c.cateNo as cateNo,
+                    c.cateName as cateName,
+                    c.description as description,
+                    c.regDate as regDate,
+                    p.count as postCount
+            from    category c, (select count(*) as count,
+                                        cateNo
+                                from    post
+                                group by cateNo) p
+            where   c.cateNo = p.cateNo(+) and c.cateNo = #{cateNo}
+        ]]>
+    </select>
+    <select id="selectList" parameterType="string"  resultType="CategoryVo">
+        <![CDATA[
+            select  c.cateNo as cateNo,
+                    c.cateName as cateName,
+                    c.description as description,
+                    c.regDate as regDate,
+                    p.count as postCount
+            from    category c, (select count(*) as count,
+                                        cateNo
+                                from    post
+                                group by cateNo) p
+            where   c.cateNo = p.cateNo(+) and id = #{id}
+            order by c.cateNo desc
+        ]]>
+    </select>
+    <delete id="delete" parameterType="CategoryVo">
+        <![CDATA[
+            delete from category c
+            where   cateNo = #{cateNo}
+            and     id = #{id}
+            and not EXISTS(
+                select  1
+                from    post p
+                where   c.cateNo = p.cateNo
+            )
+        ]]>
+    </delete>
+</mapper>

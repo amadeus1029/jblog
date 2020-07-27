@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="post">
+    <insert id="insert" parameterType="PostVo">
+        <![CDATA[
+            insert into post
+            values(seq_post_no.nextVal, #{cateNo}, #{postTitle}, #{postContent}, sysdate)
+        ]]>
+    </insert>
+
+    <select id="selectList" parameterType="map" resultType="PostVo">
+        <![CDATA[
+            select  orderedPostList.*
+            from    (select  rownum rn,
+                            postList.*
+                    from    (select  postNo,
+                                    cateNo,
+                                    postTitle,
+                                    to_char(regDate, 'YYYY/MM/DD') as regDate
+                            from    post
+                            where   cateNo = #{cateNo}
+                            order by postNo desc) postList) orderedPostList
+            where   rn>=(#{page}*#{pageView}-#{pageView}+1) and rn<=(#{page}*#{pageView})
+        ]]>
+    </select>
+    <select id="selectOne" parameterType="int" resultType="PostVo">
+        <![CDATA[
+            select  p.postTitle as postTitle,
+                    p.postContent as postContent ,
+                    to_char(p.regDate, 'YYYY/MM/DD') as regDate,
+                    c.cateName
+            from    post p, category c
+            where   p.postNo = #{postNo}
+            and     p.cateNo = c.cateNo
+        ]]>
+    </select>
+    <select id="getCount" parameterType="int" resultType="int">
+        <![CDATA[
+            select  count(*)
+            from    post
+            where   cateNo = #{cateNo}
+        ]]>
+    </select>
+</mapper>
+        <!--
+        <![CDATA[
+        ]]>
+        -->
