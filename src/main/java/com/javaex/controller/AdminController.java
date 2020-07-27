@@ -25,13 +25,17 @@ public class AdminController {
     public String basic(@PathVariable("id") String id,
                         HttpSession session,
                         Model model) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(id.equals(authUser.getId())) { //블로그 admin 검증
-            BlogVo blogVo = blogService.getBlog(id);
-            model.addAttribute("blogVo", blogVo);
-            return "blog/admin/blog-admin-basic";
-        } else { //통과 못하면
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
+        if (authUser == null) { //비로그인 상태로 관리자 접근
             return "redirect:/";
+        } else {
+            if (id.equals(authUser.getId())) { //블로그 admin 검증
+                BlogVo blogVo = blogService.getBlog(id);
+                model.addAttribute("blogVo", blogVo);
+                return "blog/admin/blog-admin-basic";
+            } else { //통과 못하면
+                return "redirect:/";
+            }
         }
     }
 
@@ -40,13 +44,17 @@ public class AdminController {
                               HttpSession session,
                               @ModelAttribute BlogVo blogVo,
                               MultipartFile file) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(id.equals(authUser.getId())) { //블로그 admin 검증
-            blogVo.setId(authUser.getId());
-            blogService.modifyBlog(blogVo, file);
-            return "redirect:basic";
-        } else { //통과 못하면
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
+        if (authUser == null) { //비로그인 상태로 관리자 접근
             return "redirect:/";
+        } else {
+            if (id.equals(authUser.getId())) { //블로그 admin 검증
+                blogVo.setId(authUser.getId());
+                blogService.modifyBlog(blogVo, file);
+                return "redirect:basic";
+            } else { //통과 못하면
+                return "redirect:/";
+            }
         }
     }
 
@@ -54,20 +62,23 @@ public class AdminController {
     public String cate(@PathVariable("id") String id,
                        HttpSession session,
                        Model model) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(id.equals(authUser.getId())) { //블로그 admin 검증
-            BlogVo blogVo = blogService.getBlog(id);
-            model.addAttribute("blogVo", blogVo);
-            return "blog/admin/blog-admin-cate";
-        } else { //통과 못하면
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
+        if (authUser == null) { //비로그인 상태로 관리자 접근
             return "redirect:/";
+        } else {
+            if (id.equals(authUser.getId())) { //블로그 admin 검증
+                BlogVo blogVo = blogService.getBlog(id);
+                model.addAttribute("blogVo", blogVo);
+                return "blog/admin/blog-admin-cate";
+            } else { //통과 못하면
+                return "redirect:/";
+            }
         }
     }
 
     @ResponseBody
     @RequestMapping("/cateList")
     public List<CategoryVo> cateList(@PathVariable("id") String id) {
-        System.out.println(blogService.getCategory(id));
         return blogService.getCategory(id);
     }
 
@@ -75,7 +86,7 @@ public class AdminController {
     @RequestMapping("/addCategory")
     public CategoryVo addCategory(@RequestBody CategoryVo categoryVo,
                                   HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
         categoryVo.setId(authUser.getId());
         return blogService.addCategory(categoryVo);
     }
@@ -90,15 +101,19 @@ public class AdminController {
     public String writeForm(@PathVariable("id") String id,
                             HttpSession session,
                             Model model) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(id.equals(authUser.getId())) { //블로그 admin 검증
-            BlogVo blogVo = blogService.getBlog(id);
-            model.addAttribute("blogVo", blogVo);
-            List<CategoryVo> cateList = blogService.getCategory(id);
-            model.addAttribute("cateList",cateList);
-            return "blog/admin/blog-admin-write";
-        } else { //통과 못하면
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
+        if (authUser == null) { //비로그인 상태로 관리자 접근
             return "redirect:/";
+        } else {
+            if (id.equals(authUser.getId())) { //블로그 admin 검증
+                BlogVo blogVo = blogService.getBlog(id);
+                model.addAttribute("blogVo", blogVo);
+                List<CategoryVo> cateList = blogService.getCategory(id);
+                model.addAttribute("cateList", cateList);
+                return "blog/admin/blog-admin-write";
+            } else { //통과 못하면
+                return "redirect:/";
+            }
         }
     }
 
@@ -106,12 +121,16 @@ public class AdminController {
     public String write(@PathVariable("id") String id,
                         @ModelAttribute PostVo postVo,
                         HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(id.equals(authUser.getId())) { //블로그 admin 검증
-            blogService.writePost(postVo);
-            return "redirect:writeForm";
-        } else { //통과 못하면
+        UserVo authUser = (UserVo) session.getAttribute("authUser");
+        if (authUser == null) { //비로그인 상태로 관리자 접근
             return "redirect:/";
+        } else {
+            if (id.equals(authUser.getId())) { //블로그 admin 검증
+                blogService.writePost(postVo);
+                return "redirect:writeForm";
+            } else { //통과 못하면
+                return "redirect:/";
+            }
         }
     }
 
