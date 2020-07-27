@@ -4,10 +4,7 @@ import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
 import com.javaex.dao.CommentDao;
 import com.javaex.dao.PostDao;
-import com.javaex.vo.BlogVo;
-import com.javaex.vo.CategoryVo;
-import com.javaex.vo.CommentVo;
-import com.javaex.vo.PostVo;
+import com.javaex.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -133,5 +130,31 @@ public class BlogService {
 
     public boolean deleteComment(CommentVo commentVo) {
         return commentDao.delete(commentVo) == 1;
+    }
+
+    public Map<String, Object> getBlogPaging(SearchVo searchVo) {
+        int pageView = 5; //한 페이지에 표시할 게시물 수
+        int pageNum = 5; //화면 하단에 표시할 페이지 최대 갯수
+        int currPage = searchVo.getPage() > 0 ? searchVo.getPage() : 1;
+        int totalPage = (blogDao.getCount(searchVo)-1)/pageView + 1;
+        int _currPage = (currPage - 1)/pageNum;
+        int beginPage = _currPage*pageNum+1;
+        int endPage = Math.min(_currPage * pageNum + pageNum, totalPage);
+
+        searchVo.setPage(currPage);
+        searchVo.setPageView(pageView);
+        List<BlogVo> blogList = blogDao.getList(searchVo);
+
+        Map<String, Object> blogPaging = new HashMap<String, Object>();
+
+        blogPaging.put("searchVo", searchVo);
+        blogPaging.put("pageNum", pageNum);
+        blogPaging.put("currPage", currPage);
+        blogPaging.put("totalPage", totalPage);
+        blogPaging.put("beginPage", beginPage);
+        blogPaging.put("endPage", endPage);
+        blogPaging.put("blogList", blogList);
+
+        return blogPaging;
     }
 }

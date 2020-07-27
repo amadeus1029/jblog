@@ -27,14 +27,14 @@ public class AdminController {
                         Model model) {
         UserVo authUser = (UserVo) session.getAttribute("authUser");
         if (authUser == null) { //비로그인 상태로 관리자 접근
-            return "redirect:/";
+            return "error/403";
         } else {
             if (id.equals(authUser.getId())) { //블로그 admin 검증
                 BlogVo blogVo = blogService.getBlog(id);
                 model.addAttribute("blogVo", blogVo);
                 return "blog/admin/blog-admin-basic";
             } else { //통과 못하면
-                return "redirect:/";
+                return "error/403";
             }
         }
     }
@@ -46,14 +46,14 @@ public class AdminController {
                               MultipartFile file) {
         UserVo authUser = (UserVo) session.getAttribute("authUser");
         if (authUser == null) { //비로그인 상태로 관리자 접근
-            return "redirect:/";
+            return "error/403";
         } else {
             if (id.equals(authUser.getId())) { //블로그 admin 검증
                 blogVo.setId(authUser.getId());
                 blogService.modifyBlog(blogVo, file);
                 return "redirect:basic";
             } else { //통과 못하면
-                return "redirect:/";
+                return "error/403";
             }
         }
     }
@@ -64,14 +64,14 @@ public class AdminController {
                        Model model) {
         UserVo authUser = (UserVo) session.getAttribute("authUser");
         if (authUser == null) { //비로그인 상태로 관리자 접근
-            return "redirect:/";
+            return "error/403";
         } else {
             if (id.equals(authUser.getId())) { //블로그 admin 검증
                 BlogVo blogVo = blogService.getBlog(id);
                 model.addAttribute("blogVo", blogVo);
                 return "blog/admin/blog-admin-cate";
             } else { //통과 못하면
-                return "redirect:/";
+                return "error/403";
             }
         }
     }
@@ -103,7 +103,7 @@ public class AdminController {
                             Model model) {
         UserVo authUser = (UserVo) session.getAttribute("authUser");
         if (authUser == null) { //비로그인 상태로 관리자 접근
-            return "redirect:/";
+            return "error/403";
         } else {
             if (id.equals(authUser.getId())) { //블로그 admin 검증
                 BlogVo blogVo = blogService.getBlog(id);
@@ -112,7 +112,7 @@ public class AdminController {
                 model.addAttribute("cateList", cateList);
                 return "blog/admin/blog-admin-write";
             } else { //통과 못하면
-                return "redirect:/";
+                return "error/403";
             }
         }
     }
@@ -123,13 +123,13 @@ public class AdminController {
                         HttpSession session) {
         UserVo authUser = (UserVo) session.getAttribute("authUser");
         if (authUser == null) { //비로그인 상태로 관리자 접근
-            return "redirect:/";
+            return "error/403";
         } else {
             if (id.equals(authUser.getId())) { //블로그 admin 검증
                 blogService.writePost(postVo);
                 return "redirect:writeForm";
             } else { //통과 못하면
-                return "redirect:/";
+                return "error/403";
             }
         }
     }

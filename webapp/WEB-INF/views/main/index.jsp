@@ -16,7 +16,7 @@
 		<!--메인 해더 자리 -->
 		
 		
-		<form id="search-form">
+		<form id="search-form" action="${pageContext.request.contextPath}/search" method="post">
 			<fieldset>
 				<input type="text" name="keyword" >
 				<button id="btnSearch" type="submit" >검색</button>
@@ -24,17 +24,20 @@
 			
 			<fieldset>
 				<label for="rdo-title">블로그 제목</label> 
-				<input id="rdo-title" type="radio" name="kwdOpt" value="optTitle" > 
+				<input id="rdo-title" type="radio" name="option" value="blogTitle" >
 				
 				<label for="rdo-userName">블로거 이름</label> 
-				<input id="rdo-userName" type="radio" name="kwdOpt" value="optName" >
+				<input id="rdo-userName" type="radio" name="option" value="userName" >
 			</fieldset>
 		</form>
-		
-		<div id="resultList">
-			
-			
+		<div id="blogList">
+			<c:forEach items="${blog.blogList}" var="blogVo">
+				<p>${blogVo.blogTitle}</p>
+				<p>${blogVo.userName}</p>
+				<p>${blogVo.joinDate}</p>
+			</c:forEach>
 		</div>
+		<c:import url="/WEB-INF/views/includes/blogPaging.jsp"></c:import>
 
 		<c:import url="/WEB-INF/views/includes/main-footer.jsp"></c:import>
 		<!-- 메인 푸터  자리-->
