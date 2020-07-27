@@ -2,9 +2,11 @@ package com.javaex.service;
 
 import com.javaex.dao.BlogDao;
 import com.javaex.dao.CategoryDao;
+import com.javaex.dao.CommentDao;
 import com.javaex.dao.PostDao;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentVo;
 import com.javaex.vo.PostVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,6 +31,9 @@ public class BlogService {
 
     @Autowired
     private PostDao postDao;
+
+    @Autowired
+    private CommentDao commentDao;
 
     public BlogVo getBlog(String id) {
         return blogDao.getBlog(id);
@@ -114,5 +119,19 @@ public class BlogService {
 
     public PostVo getPost(int postNo) {
         return postDao.getPost(postNo);
+    }
+
+    public List<CommentVo> getCommentList(int postNo) {
+        return commentDao.getList(postNo);
+    }
+
+    public CommentVo addComment(CommentVo commentVo) {
+        commentDao.insertSelectKey(commentVo);
+        int cmtNo = commentVo.getCmtNo();
+        return commentDao.selectByNo(cmtNo);
+    }
+
+    public boolean deleteComment(CommentVo commentVo) {
+        return commentDao.delete(commentVo) == 1;
     }
 }

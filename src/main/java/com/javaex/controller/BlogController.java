@@ -3,26 +3,25 @@ package com.javaex.controller;
 import com.javaex.service.BlogService;
 import com.javaex.vo.BlogVo;
 import com.javaex.vo.CategoryVo;
+import com.javaex.vo.CommentVo;
 import com.javaex.vo.PostVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/{id}")
 public class BlogController {
 
     @Autowired
     private BlogService blogService;
 
 
-    @RequestMapping("/{id}")
+    @RequestMapping("")
     public String getBlog(@PathVariable("id") String id,
                           Model model,
                           @ModelAttribute PostVo postVo,
@@ -54,10 +53,26 @@ public class BlogController {
             postVo = blogService.getPost(postNo);
             model.addAttribute("postVo",postVo);
 
+            //코멘트리스트 보내주기
+            List<CommentVo> commentList = blogService.getCommentList(postNo);
+            model.addAttribute("commentList", commentList);
+
             return "blog/blog-main";
         } else {
             return "error/403";
         }
 
+    }
+
+    @ResponseBody
+    @RequestMapping("/addComment")
+    public CommentVo addComment(@RequestBody CommentVo commentVo) {
+        return blogService.addComment(commentVo);
+    }
+
+    @ResponseBody
+    @RequestMapping("/deleteComment")
+    public boolean deleteComment(@RequestBody CommentVo commentVo) {
+        return blogService.deleteComment(commentVo);
     }
 }

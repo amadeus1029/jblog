@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="comment">
+    <select id="selectList" parameterType="int" resultType="CommentVo">
+        <![CDATA[
+            select  c.cmtNo as cmtNo,
+                    c.userNo as userNo,
+                    u.username as userName,
+                    c.cmtcontent as cmtContent,
+                    to_char(c.regDate, 'YYYY/MM/DD') as regDate
+            from    comments c, users u
+            where   c.userno = u.userno
+            and     c.postNo = #{postNo}
+            order by c.cmtNo desc
+        ]]>
+    </select>
+    <insert id="insertSelectKey" parameterType="CommentVo">
+        <selectKey keyProperty="cmtNo" resultType="int" order="BEFORE">
+            <![CDATA[
+                select seq_comments_no.nextVal from dual
+            ]]>
+        </selectKey>
+        <![CDATA[
+            insert into comments
+            values(#{cmtNo}, #{postNo}, #{userNo}, #{cmtContent}, sysdate)
+        ]]>
+    </insert>
+    <select id="selectByNo" parameterType="int" resultType="CommentVo">
+        <![CDATA[
+            select  c.cmtNo as cmtNo,
+                    u.username as userName,
+                    c.cmtcontent as cmtContent,
+                    to_char(c.regDate, 'YYYY/MM/DD') as regDate
+            from    comments c, users u
+            where   c.userno = u.userno
+            and     c.cmtNo = #{cmtNo}
+        ]]>
+    </select>
+    <delete id="delete" parameterType="CommentVo">
+        <![CDATA[
+            delete  comments
+            where   userNo = #{userNo}
+            and     cmtNo = #{cmtNo}
+        ]]>
+    </delete>
+</mapper>
+        <!--
+
+        -->

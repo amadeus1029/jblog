@@ -209,11 +209,10 @@ div#footer		{ color:#666 }
 #admin-content #admin-cate-list {width: 100%; border-collapse: collapse; font-size: 15px;}
 #admin-content #admin-cate-list th {padding: 5px 5px 5px 5px; border: 1px solid #B7B7B7;  background-color: #DDDDDD;}
 #admin-content #admin-cate-list td {padding: 5px 5px 5px 5px; border: 1px solid #B7B7B7;  }
-
 #admin-content #admin-cate-add {width: 100%; border-collapse: collapse; font-size: 15px;}
 #admin-content #admin-cate-add [type='text'] {width: 600px; height: 30px; }
-
 /* 글작성 */
+
 #admin-content #admin-write [type='text'] {width: 450px; height: 30px; }
 #admin-content #admin-write select[name='cateNo'] {width: 150px; height: 35px; }
 #admin-content #admin-write textarea {width: 600px; height: 300px;}
@@ -222,6 +221,7 @@ div#footer		{ color:#666 }
 /* 추가 css */
 #profilecate_area #cateList>li.on {font-weight: bold}
 #post_area #list table td a.on {font-weight: bold}
+#admin-content #admin-cate-list img {cursor: pointer}
 
 /* 게시판 페이징 */
 #paging {
@@ -245,3 +245,51 @@ div#footer		{ color:#666 }
 	opacity: 0.3;
 	pointer-events: none;
 }
+
+/* 코멘트 기능 css */
+table#addComment {
+	border: 1px solid #000;
+	border-collapse: collapse;
+	text-align: left;
+}
+
+table#addComment td {
+	height: 35px;
+}
+
+table#addComment span.name {
+	box-sizing: border-box;
+	padding-left: 10px;
+}
+
+table#addComment input[name='cmtContent'] {
+	width: calc(100% - 30px);
+	height: 25px;
+}
+
+table#addComment button#addCommentBtn {
+	width: 60px;
+	height: 25px;
+	cursor: pointer;
+}
+
+table#commentList {
+	border: 0;
+	text-align: left;
+}
+
+table#commentList td {
+	height: 25px;
+}
+
+table#commentList span.name {
+	box-sizing: border-box;
+	padding-left: 10px;
+}
+table#commentList button.delete {
+	color: red;
+	cursor: pointer;
+	background-color: transparent;
+	border: 0;
+}
+

@@ -26,9 +26,11 @@
     </select>
     <select id="selectOne" parameterType="int" resultType="PostVo">
         <![CDATA[
-            select  p.postTitle as postTitle,
+            select  p.postNo as postNo,
+                    p.postTitle as postTitle,
                     p.postContent as postContent ,
                     to_char(p.regDate, 'YYYY/MM/DD') as regDate,
+                    p.cateNo as cateNo,
                     c.cateName
             from    post p, category c
             where   p.postNo = #{postNo}
