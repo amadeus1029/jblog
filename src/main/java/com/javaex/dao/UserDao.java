@@ -18,4 +18,8 @@ public class UserDao {
     public UserVo login(UserVo userVo) {
         return sqlSession.selectOne("user.selectUser",userVo);
     }
+
+    public UserVo idChk(UserVo userVo) {
+        return sqlSession.selectOne("user.idChk", userVo );
+    }
 }

@@ -29,4 +29,8 @@ public class UserService {
     public UserVo login(UserVo userVo) {
         return userDao.login(userVo);
     }
+
+    public boolean idChk(UserVo userVo) {
+        return userDao.idChk(userVo) == null;
+    }
 }

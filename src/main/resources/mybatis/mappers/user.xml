@@ -22,4 +22,12 @@
 
         ]]>
     </select>
+
+    <select id="idChk" parameterType="UserVo" resultType="UserVo">
+        <![CDATA[
+            select  id
+            from    users
+            where   id=#{id}
+        ]]>
+    </select>
 </mapper>

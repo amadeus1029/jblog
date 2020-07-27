@@ -8,7 +8,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/user")
@@ -55,5 +57,15 @@ public class UserController {
         session.invalidate();
 
         return "redirect:/";
+    }
+
+    @ResponseBody
+    @RequestMapping("/idChk")
+    public boolean idChk(@RequestBody UserVo userVo) {
+        if(userVo.getId().equals("") || userVo.getId() == null ) {
+            return false;
+        } else {
+            return userService.idChk(userVo);
+        }
     }
 }
