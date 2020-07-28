@@ -24,7 +24,7 @@
 			
 			<fieldset>
 				<label for="rdo-title">블로그 제목</label> 
-				<input id="rdo-title" type="radio" name="option" value="blogTitle" >
+				<input id="rdo-title" type="radio" name="option" value="blogTitle" checked>
 				
 				<label for="rdo-userName">블로거 이름</label> 
 				<input id="rdo-userName" type="radio" name="option" value="userName" >
@@ -37,8 +37,9 @@
 				<p>${blogVo.joinDate}</p>
 			</c:forEach>
 		</div>
-		<c:import url="/WEB-INF/views/includes/blogPaging.jsp"></c:import>
-
+		<c:if test="${blog ne null}">
+			<c:import url="/WEB-INF/views/includes/blogPaging.jsp"></c:import>
+		</c:if>
 		<c:import url="/WEB-INF/views/includes/main-footer.jsp"></c:import>
 		<!-- 메인 푸터  자리-->
 	

@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <title>JBlog</title>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/jblog.css">
-
+    <script type="text/javascript" src="${pageContext.request.contextPath }/assets/js/jquery/jquery-1.12.4.js"></script>
 </head>
 
 <body>
@@ -26,7 +26,7 @@
             <!-- //admin-menu -->
 
             <div id="admin-content">
-                <form action="${pageContext.request.contextPath}/${blogVo.id}/admin/write" method="post">
+                <form action="${pageContext.request.contextPath}/${blogVo.id}/admin/write" method="post" id="adminWriteForm">
                     <table id="admin-write">
                         <colgroup>
                             <col style="width: 100px;">
@@ -36,7 +36,7 @@
                         <tr>
                             <td class="t">포스트 제목</td>
                             <td>
-                                <input type="text" name="postTitle">
+                                <input type="text" name="postTitle" id="postTitle">
                             </td>
                             <td>
                                 <select name="cateNo">
@@ -69,5 +69,15 @@
 
     </div>
     <!-- //wrap -->
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#adminWriteForm").on("submit",function () {
+                if($("input#postTitle").val() === "" || $("input#postTitle").val == null) {
+                    alert("포스트 제목을 입력해주세요");
+                    return false;
+                }
+            });
+        }); //레디함수 종료
+    </script>
 </body>
 </html>

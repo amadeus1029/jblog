@@ -126,6 +126,11 @@
                 description: descVal
             }
 
+            if(nameVal === "" || nameVal == null) {
+                alert("카테고리명을 입력해주세요");
+                return false;
+            }
+
             $.ajax({
                 url: "${pageContext.request.contextPath}/${blogVo.id}/admin/addCategory",
                 type: "post",
