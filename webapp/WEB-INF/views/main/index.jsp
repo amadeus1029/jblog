@@ -30,13 +30,31 @@
 				<input id="rdo-userName" type="radio" name="option" value="userName" >
 			</fieldset>
 		</form>
-		<div id="blogList">
+		<table id="blogList">
+			<colgroup>
+				<col style="width:80px;">
+				<col style="width:350px;">
+				<col style="width:100px;">
+				<col style="width:100px;">
+			</colgroup>
 			<c:forEach items="${blog.blogList}" var="blogVo">
-				<p>${blogVo.blogTitle}</p>
-				<p>${blogVo.userName}</p>
-				<p>${blogVo.joinDate}</p>
+				<tr>
+					<td class="logo-section">
+						<c:if test="${blogVo.logoFile == 'default'}">
+							<img class="logo-image" src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
+						</c:if>
+						<c:if test="${blogVo.logoFile != 'default'}">
+							<img class="logo-image" src="${pageContext.request.contextPath}/upload/${blogVo.logoFile}">
+						</c:if>
+					</td>
+					<td class="title">
+						<a href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.blogTitle}</a>
+					</td>
+					<td class="name">${blogVo.userName}(${blogVo.id})</td>
+					<td class="date">${blogVo.joinDate}</td>
+				</tr>
 			</c:forEach>
-		</div>
+		</table>
 		<c:if test="${blog ne null}">
 			<c:import url="/WEB-INF/views/includes/blogPaging.jsp"></c:import>
 		</c:if>

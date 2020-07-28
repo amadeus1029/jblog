@@ -75,7 +75,7 @@
                                     b.blogTitle as blogTitle,
                                     b.logoFile as logoFile,
                                     u.userName as userName,
-                                    u.joinDate as joinDate
+                                    to_char(u.joinDate, 'YYYY/MM/DD') as joinDate
                             from    blog b, users u
                             where   u.id = b.id
         ]]>

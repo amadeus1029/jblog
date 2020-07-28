@@ -293,3 +293,27 @@ table#commentList button.delete {
 	border: 0;
 }
 
+/* 메인 검색영역 css */
+table#blogList {
+	margin: 0 auto;
+}
+table#blogList tr {
+	border-collapse: separate;
+}
+table#blogList td  {
+	height: auto;
+	padding: 0;
+	border: 1px solid #333;
+	border-collapse: collapse;
+	text-align: center;
+}
+table#blogList td.title  {
+	font-size: 20px;
+	font-weight: bold;
+	padding: 0;
+}
+table#blogList td.logo-section img {
+	display: block;
+	width: 80px;
+	height: 80px;
+}

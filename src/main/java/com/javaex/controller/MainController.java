@@ -23,8 +23,10 @@ public class MainController {
     @RequestMapping("/search")
     public String search(@ModelAttribute SearchVo searchVo,
                          Model model) {
-        Map<String, Object> blogPaging = blogService.getBlogPaging(searchVo);
-        model.addAttribute("blog",blogPaging);
+        if(!searchVo.getKeyword().equals("")) { //아무것도 입력하지 않으면 서치하지 않음
+            Map<String, Object> blogPaging = blogService.getBlogPaging(searchVo);
+            model.addAttribute("blog",blogPaging);
+        }
         return "main/index";
     }
 }
