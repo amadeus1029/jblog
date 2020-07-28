@@ -23,11 +23,11 @@
 			</fieldset>
 			
 			<fieldset>
-				<label for="rdo-title">블로그 제목</label> 
-				<input id="rdo-title" type="radio" name="option" value="blogTitle" checked>
+				<label for="rdo-title">블로그 제목</label>
+				<input id="rdo-title" type="radio" name="option" value="blogTitle" ${param.option eq "blogTitle" || param.option eq null ? "checked" : ""}>
 				
 				<label for="rdo-userName">블로거 이름</label> 
-				<input id="rdo-userName" type="radio" name="option" value="userName" >
+				<input id="rdo-userName" type="radio" name="option" value="userName" ${param.option eq "userName" ? "checked" : ""}>
 			</fieldset>
 		</form>
 		<c:if test="${blog ne null}">
