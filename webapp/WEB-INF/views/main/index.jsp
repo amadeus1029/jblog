@@ -16,7 +16,7 @@
 		<!--메인 해더 자리 -->
 		
 		
-		<form id="search-form" action="${pageContext.request.contextPath}/search" method="post">
+		<form id="search-form" action="${pageContext.request.contextPath}/" method="post">
 			<fieldset>
 				<input type="text" name="keyword" value="${blog.searchVo.keyword}">
 				<button id="btnSearch" type="submit" >검색</button>
@@ -53,7 +53,7 @@
 							</c:if>
 						</td>
 						<td class="title">
-							<a href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.blogTitle}</a>
+							<a target="_blank" href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.blogTitle}</a>
 						</td>
 						<td class="name">${blogVo.userName}(${blogVo.id})</td>
 						<td class="date">${blogVo.joinDate}</td>
