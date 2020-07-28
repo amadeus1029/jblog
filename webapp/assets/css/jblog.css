@@ -294,6 +294,10 @@ table#commentList button.delete {
 }
 
 /* 메인 검색영역 css */
+p.notice {
+	font-size: 24px;
+}
+
 table#blogList {
 	margin: 0 auto;
 }

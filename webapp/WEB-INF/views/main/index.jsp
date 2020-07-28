@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -18,7 +18,7 @@
 		
 		<form id="search-form" action="${pageContext.request.contextPath}/search" method="post">
 			<fieldset>
-				<input type="text" name="keyword" >
+				<input type="text" name="keyword" value="${blog.searchVo.keyword}">
 				<button id="btnSearch" type="submit" >검색</button>
 			</fieldset>
 			
@@ -30,32 +30,36 @@
 				<input id="rdo-userName" type="radio" name="option" value="userName" >
 			</fieldset>
 		</form>
-		<table id="blogList">
-			<colgroup>
-				<col style="width:80px;">
-				<col style="width:350px;">
-				<col style="width:100px;">
-				<col style="width:100px;">
-			</colgroup>
-			<c:forEach items="${blog.blogList}" var="blogVo">
-				<tr>
-					<td class="logo-section">
-						<c:if test="${blogVo.logoFile == 'default'}">
-							<img class="logo-image" src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
-						</c:if>
-						<c:if test="${blogVo.logoFile != 'default'}">
-							<img class="logo-image" src="${pageContext.request.contextPath}/upload/${blogVo.logoFile}">
-						</c:if>
-					</td>
-					<td class="title">
-						<a href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.blogTitle}</a>
-					</td>
-					<td class="name">${blogVo.userName}(${blogVo.id})</td>
-					<td class="date">${blogVo.joinDate}</td>
-				</tr>
-			</c:forEach>
-		</table>
 		<c:if test="${blog ne null}">
+			<c:if test="${fn:length(blog.blogList) eq 0}">
+				<p class="notice">검색 결과가 없습니다</p>
+			</c:if>
+			<table id="blogList">
+				<colgroup>
+					<col style="width:80px;">
+					<col style="width:350px;">
+					<col style="width:100px;">
+					<col style="width:100px;">
+				</colgroup>
+
+				<c:forEach items="${blog.blogList}" var="blogVo">
+					<tr>
+						<td class="logo-section">
+							<c:if test="${blogVo.logoFile == 'default'}">
+								<img class="logo-image" src="${pageContext.request.contextPath}/assets/images/spring-logo.jpg">
+							</c:if>
+							<c:if test="${blogVo.logoFile != 'default'}">
+								<img class="logo-image" src="${pageContext.request.contextPath}/upload/${blogVo.logoFile}">
+							</c:if>
+						</td>
+						<td class="title">
+							<a href="${pageContext.request.contextPath}/${blogVo.id}">${blogVo.blogTitle}</a>
+						</td>
+						<td class="name">${blogVo.userName}(${blogVo.id})</td>
+						<td class="date">${blogVo.joinDate}</td>
+					</tr>
+				</c:forEach>
+			</table>
 			<c:import url="/WEB-INF/views/includes/blogPaging.jsp"></c:import>
 		</c:if>
 		<c:import url="/WEB-INF/views/includes/main-footer.jsp"></c:import>
