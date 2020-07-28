@@ -150,6 +150,12 @@
                 userNo: ${authUser.userNo},
                 cmtContent: cmtContentVal
             };
+
+            if(cmtContentVal === "" || cmtContentVal == null) {
+                alert("코멘트를 입력해주세요");
+                return false;
+            }
+
             $.ajax({
                 url: "${pageContext.request.contextPath}/${blogVo.id}/addComment",
                 type: "post",

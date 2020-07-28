@@ -16,7 +16,7 @@
         </selectKey>
         <![CDATA[
             insert into category
-            values(#{cateNo}, #{id}, #{cateName},#{description}, sysdate)
+            values(#{cateNo}, #{id}, #{cateName}, #{description}, sysdate)
         ]]>
     </insert>
     <select id="selectByNo" parameterType="int" resultType="CategoryVo">

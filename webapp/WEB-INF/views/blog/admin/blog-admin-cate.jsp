@@ -22,7 +22,8 @@
                 <li class="tabbtn"><a href="${pageContext.request.contextPath}/${blogVo.id}/admin/basic">기본설정</a></li>
                 <li class="tabbtn selected"><a
                         href="${pageContext.request.contextPath}/${blogVo.id}/admin/cate">카테고리</a></li>
-                <li class="tabbtn"><a href="${pageContext.request.contextPath}/${blogVo.id}/admin/writeForm">글작성</a></li>
+                <li class="tabbtn"><a href="${pageContext.request.contextPath}/${blogVo.id}/admin/writeForm">글작성</a>
+                </li>
             </ul>
             <!-- //admin-menu -->
 
@@ -92,7 +93,7 @@
                 dataType: "json",
                 success: function (cateList) {
                     for (i = 0; i < cateList.length; i++) {
-                        render(cateList[i]);
+                        render(cateList[i],"down");
                     }
                 },
                 error: function (XHR, status, error) {
@@ -101,17 +102,23 @@
             });
         }
 
-        function render(cateVo) {
+        function render(cateVo, direction) {
+            if (cateVo.description == null) {
+                cateVo.description = "";
+            }
             var list = $("#cateList");
-            list.append(
-                "<tr>"+
-                "<td>"+cateVo.cateNo+"</td>"+
-                "<td>"+cateVo.cateName+"</td>"+
-                "<td>"+cateVo.postCount+"</td>"+
-                "<td>"+cateVo.description+"</td>"+
-                "<td>"+"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg' onclick='deleteCategory($(this))' data-no='"+cateVo.cateNo+"'>"+"</td>"+
-                "</tr>"
-            );
+            var html = "<tr>" +
+                "<td>" + cateVo.cateNo + "</td>" +
+                "<td>" + cateVo.cateName + "</td>" +
+                "<td>" + cateVo.postCount + "</td>" +
+                "<td>" + cateVo.description + "</td>" +
+                "<td>" + "<img src='${pageContext.request.contextPath}/assets/images/delete.jpg' onclick='deleteCategory($(this))' data-no='" + cateVo.cateNo + "'>" + "</td>" +
+                "</tr>";
+            if(direction == "up") {
+                list.prepend(html);
+            } else {
+                list.append(html);
+            }
         }
 
 
@@ -122,11 +129,11 @@
             var desc = table.find("input[name='desc']");
             var descVal = desc.val();
             var categoryVo = {
-                cateName : nameVal,
+                cateName: nameVal,
                 description: descVal
             }
 
-            if(nameVal === "" || nameVal == null) {
+            if (nameVal === "" || nameVal == null) {
                 alert("카테고리명을 입력해주세요");
                 return false;
             }
@@ -139,15 +146,7 @@
                 dataType: "json",
                 success: function (category) {
                     //화면에 카테고리 추가
-                    $("#cateList").prepend(
-                      "<tr>" +
-                            "<td>"+category.cateNo+"</td>"+
-                            "<td>"+category.cateName+"</td>"+
-                            "<td>"+"0"+"</td>"+
-                            "<td>"+category.description+"</td>"+
-                            "<td>"+"<img src='${pageContext.request.contextPath}/assets/images/delete.jpg' onclick='deleteCategory($(this))' data-no='"+category.cateNo+"'>"+"</td>"+
-                      "<tr>"
-                    );
+                    render(category,"up");
                     //인풋 비워주기
                     name.val("");
                     desc.val("");
@@ -161,8 +160,8 @@
         function deleteCategory(target) {
             var cateNo = target.attr("data-no");
             var categoryVo = {
-                id : "${authUser.id}",
-                cateNo : cateNo
+                id: "${authUser.id}",
+                cateNo: cateNo
             };
             $.ajax({
                 url: "${pageContext.request.contextPath}/${blogVo.id}/admin/deleteCategory",
@@ -171,7 +170,7 @@
                 data: JSON.stringify(categoryVo),
                 dataType: "json",
                 success: function (result) {
-                    if(result) {
+                    if (result) {
                         target.parents('tr').remove();
                         alert("삭제에 성공했습니다")
                     } else {
