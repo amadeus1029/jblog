@@ -50,17 +50,18 @@
     <select id="getCount" parameterType="SearchVo" resultType="int">
         <![CDATA[
             select  count(*)
-            from    blog
+            from    blog b, users u
+            where   b.id = u.id
         ]]>
         <choose>
             <when test="option != null and option.equals('blogTitle')">
                 <![CDATA[
-                    where   blogTitle like '%' || #{keyword} || '%'
+                    and   blogTitle like '%' || #{keyword} || '%'
                  ]]>
             </when>
             <when test="option != null and option.equals('userName')">
                 <![CDATA[
-                    where   userName like '%' || #{keyword} || '%'
+                    and   userName like '%' || #{keyword} || '%'
                 ]]>
             </when>
         </choose>
