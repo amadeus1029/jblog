@@ -45,7 +45,7 @@ public class BlogService {
         if(!file.isEmpty()) { //파일을 첨부했을 때만
 
             //저장 경로
-            String saveDir = "/Users/apolion/work/upload";
+            String saveDir = "/upload";
 
             //파일 이름
             String orgName = file.getOriginalFilename();
